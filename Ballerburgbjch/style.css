@@ -4,6 +4,8 @@ body {
 }
 
 .inputs {
+    position: relative;
+    z-index: 2;
     display: grid;
     grid-template-columns: auto auto;
     text-align: center;
@@ -20,6 +22,8 @@ body {
 }
 
 canvas {
+    position: fixed;
+    z-index: 1;
     margin: 0;
     padding: 0;
     height: 100%;

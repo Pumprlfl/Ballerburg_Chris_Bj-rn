@@ -99,8 +99,6 @@ window.addEventListener("load", _event => {
         ctx.fill(player2);
     }
 
-
-
     function animate() {
         drawBackground();
         drawCanons();
