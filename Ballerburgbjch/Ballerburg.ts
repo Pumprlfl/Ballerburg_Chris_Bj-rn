@@ -1,4 +1,4 @@
-window.addEventListener("load", _event => {
+namespace Ballerburg {
 
     interface Canon {
 
@@ -7,10 +7,7 @@ window.addEventListener("load", _event => {
             y: number
         },
 
-        dir: {
-            x: number,
-            y: number
-        },
+        angle: number,
 
         power: number
     }
@@ -64,6 +61,15 @@ window.addEventListener("load", _event => {
     let canon2: Canon;
     let mountain: Mountain;
 
+    window.addEventListener("load", start);
+
+    function start(_event: Event): void {
+        generateMountain();
+        generateCanons();
+        requestAnimationFrame(animate);
+
+    }
+
     function drawBackground() {
         //draw background
         ctx.fillStyle = "rgb(77, 57, 20)";
@@ -72,46 +78,50 @@ window.addEventListener("load", _event => {
         ctx.fill(bg);
     }
 
-    function generateCanons(){
+    function generateCanons() {
         canon1 = {
             pos: {
-                x: 40,
-                y: 540 + Math.random()*540
+                x: 140,
+                y: 540 + Math.random() * 540
             },
-            dir: {
-                x: 0,
-                y: 0
-            },
+            angle: 0,
             power: 0.5
         };
 
         canon2 = {
             pos: {
-                x: 1820,
-                y: 540 + Math.random()*540
+                x: 1720,
+                y: 540 + Math.random() * 540
             },
-            dir: {
-                x: 0,
-                y: 0
-            },
+            angle: 0,
             power: 0.5
         };
     }
 
-    function drawCanons(){
+    function drawCanons() {
         const player1: Path2D = new Path2D();
         const player2: Path2D = new Path2D();
 
         ctx.fillStyle = ("rgb(0, 0, 0)");
-        
-        player1.rect(canon1.pos.x, canon1.pos.y, 100, 40);
-        player2.rect(canon2.pos.x, canon2.pos.y, -100, -40);
 
-        ctx.fill(player1);
-        ctx.fill(player2);
+        ctx.translate(canon1.pos.x, canon1.pos.y);
+        ctx.rotate(-Math.PI * canon1.angle / 180);
+        ctx.fillRect(0, 0, 100, -40);
+
+        ctx.rotate(Math.PI * canon1.angle / 180);
+        ctx.translate(-canon1.pos.x, -canon1.pos.y);
+
+
+        ctx.translate(canon2.pos.x, canon2.pos.y);
+        ctx.rotate(Math.PI * canon2.angle / 180);
+        ctx.fillRect(0, 0, -100, -40);
+
+        ctx.rotate(-Math.PI * canon2.angle / 180);
+        ctx.translate(-canon2.pos.x, -canon2.pos.y);
+
     }
 
-    function generateMountain(){
+    function generateMountain() {
         mountain = {
             p1: {
                 x: 500,
@@ -124,14 +134,14 @@ window.addEventListener("load", _event => {
             },
 
             p3: {
-                x: 700 + Math.random()*400,
-                y: 400 + Math.random()*400
+                x: 700 + Math.random() * 400,
+                y: 400 + Math.random() * 400
             }
 
         }
     }
 
-    function drawMountain(){
+    function drawMountain() {
 
         ctx.fillStyle = "rgb(0, 0, 0)";
 
@@ -144,15 +154,32 @@ window.addEventListener("load", _event => {
         ctx.fill();
     }
 
+    const slider1 = document.getElementById('player1angle') as HTMLInputElement;
+    const slider2 = document.getElementById('player2angle') as HTMLInputElement;
+
+    function getSlider1Value(): number {
+        return parseInt(slider1.value, 10);
+    }
+
+    function getSlider2Value(): number {
+        return parseInt(slider2.value, 10);
+    }
+
+    slider1.addEventListener('input', () => {
+        canon1.angle = getSlider1Value();
+    });
+
+    slider2.addEventListener('input', () => {
+        canon2.angle = getSlider2Value();
+    });
+
+
     function animate() {
-        
+        ctx.clearRect(0,0,1920,1080);
+
         drawBackground();
         drawCanons();
         drawMountain();
         requestAnimationFrame(animate);
     }
-
-    generateMountain();
-    generateCanons();
-    requestAnimationFrame(animate);
-});
+}
