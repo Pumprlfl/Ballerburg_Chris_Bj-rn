@@ -1,6 +1,6 @@
 window.addEventListener("load", _event => {
 
-    interface canon {
+    interface Canon {
 
         pos: {
             x: number,
@@ -15,7 +15,7 @@ window.addEventListener("load", _event => {
         power: number
     }
 
-    interface ball {
+    interface Ball {
 
         size: number,
 
@@ -32,7 +32,7 @@ window.addEventListener("load", _event => {
         power: number
     }
 
-    interface mountain {
+    interface Mountain {
 
         size: number,
 
