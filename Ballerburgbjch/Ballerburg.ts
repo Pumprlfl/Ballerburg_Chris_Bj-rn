@@ -49,6 +49,9 @@ window.addEventListener("load", _event => {
     const worldPosX: number = 0;
     const worldPosY: number = 0;
 
+    let canon1: Canon;
+    let canon2: Canon;
+
     function drawBackground() {
         //draw background
         ctx.fillStyle = "rgb(77, 57, 20)";
@@ -57,10 +60,52 @@ window.addEventListener("load", _event => {
         ctx.fill(bg);
     }
 
-    function animate() {
-        drawBackground();
-        requestAnimationFrame(animate);
+    function generateCanons(){
+        canon1 = {
+            pos: {
+                x: 40,
+                y: 540 + Math.random()*540
+            },
+            dir: {
+                x: 0,
+                y: 0
+            },
+            power: 0.5
+        };
+
+        canon2 = {
+            pos: {
+                x: 1820,
+                y: 540 + Math.random()*540
+            },
+            dir: {
+                x: 0,
+                y: 0
+            },
+            power: 0.5
+        };
     }
 
+    function drawCanons(){
+        let player1: Path2D = new Path2D();
+        let player2: Path2D = new Path2D();
+
+        ctx.fillStyle = ("rgb(0, 0, 0)");
+        
+        player1.rect(canon1.pos.x, canon1.pos.y, 100, 40);
+        player2.rect(canon2.pos.x, canon2.pos.y, -500, -200);
+
+        ctx.fill(player1);
+        ctx.fill(player2);
+    }
+
+
+
+    function animate() {
+        drawBackground();
+        drawCanons();
+        requestAnimationFrame(animate);
+    }
+    generateCanons();
     requestAnimationFrame(animate);
 });
