@@ -42,17 +42,17 @@ window.addEventListener("load", _event => {
     const canvas: HTMLCanvasElement = document.getElementsByTagName("canvas")[0];
     const ctx: CanvasRenderingContext2D = canvas.getContext("2d")!;
 
-    let canvasX: number = canvas.width;
-    let canvasY: number = canvas.height;
-    let worldWidth: number = 1920;
-    let worldHeigth: number = 1080;
-    let worldPosX: number = 0;
-    let worldPosY: number = 0;
+    const canvasX: number = canvas.width;
+    const canvasY: number = canvas.height;
+    const worldWidth: number = 1920;
+    const worldHeigth: number = 1080;
+    const worldPosX: number = 0;
+    const worldPosY: number = 0;
 
     function drawBackground() {
         //draw background
         ctx.fillStyle = "rgb(77, 57, 20)";
-        let bg: Path2D = new Path2D();
+        const bg: Path2D = new Path2D();
         bg.rect(worldPosX, worldPosY, worldWidth, worldHeigth);
         ctx.fill(bg);
     }
