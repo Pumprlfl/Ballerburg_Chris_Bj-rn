@@ -87,8 +87,8 @@ window.addEventListener("load", _event => {
     }
 
     function drawCanons(){
-        let player1: Path2D = new Path2D();
-        let player2: Path2D = new Path2D();
+        const player1: Path2D = new Path2D();
+        const player2: Path2D = new Path2D();
 
         ctx.fillStyle = ("rgb(0, 0, 0)");
         
