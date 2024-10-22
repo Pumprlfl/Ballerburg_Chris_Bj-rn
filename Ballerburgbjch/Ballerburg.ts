@@ -34,9 +34,20 @@ window.addEventListener("load", _event => {
 
     interface Mountain {
 
-        size: number,
+        p1: {
+            x: number,
+            y: number
+        }
 
-        yPos: number
+        p2: {
+            x: number,
+            y: number
+        }
+
+        p3: {
+            x: number,
+            y: number
+        }
     }
 
     const canvas: HTMLCanvasElement = document.getElementsByTagName("canvas")[0];
@@ -51,6 +62,7 @@ window.addEventListener("load", _event => {
 
     let canon1: Canon;
     let canon2: Canon;
+    let mountain: Mountain;
 
     function drawBackground() {
         //draw background
@@ -93,17 +105,54 @@ window.addEventListener("load", _event => {
         ctx.fillStyle = ("rgb(0, 0, 0)");
         
         player1.rect(canon1.pos.x, canon1.pos.y, 100, 40);
-        player2.rect(canon2.pos.x, canon2.pos.y, -500, -200);
+        player2.rect(canon2.pos.x, canon2.pos.y, -100, -40);
 
         ctx.fill(player1);
         ctx.fill(player2);
     }
 
+    function generateMountain(){
+        mountain = {
+            p1: {
+                x: 500,
+                y: 1080
+            },
+
+            p2: {
+                x: 1500,
+                y: 1080
+            },
+
+            p3: {
+                x: 700 + Math.random()*400,
+                y: 400 + Math.random()*400
+            }
+
+        }
+    }
+
+    function drawMountain(){
+
+        ctx.fillStyle = "rgb(0, 0, 0)";
+
+        ctx.beginPath();
+        ctx.moveTo(mountain.p1.x, mountain.p1.y);
+        ctx.lineTo(mountain.p2.x, mountain.p2.y);
+        ctx.lineTo(mountain.p3.x, mountain.p3.y);
+        ctx.closePath();
+
+        ctx.fill();
+    }
+
     function animate() {
+        
         drawBackground();
         drawCanons();
+        drawMountain();
         requestAnimationFrame(animate);
     }
+
+    generateMountain();
     generateCanons();
     requestAnimationFrame(animate);
 });

@@ -11,6 +11,12 @@ body {
     text-align: center;
     gap: 5px;
     padding: 5px;
+    color:silver;
+}
+
+.inputs p{
+    padding-bottom: 0px;
+    margin-bottom: 0px;
 }
 
 .player1 {
