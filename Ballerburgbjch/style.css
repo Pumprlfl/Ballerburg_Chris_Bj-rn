@@ -1,9 +1,24 @@
-body{
+body {
     padding: 0;
     margin: 0;
 }
 
-canvas{
+.container {
+    position: relative;
+    display: inline-block;
+}
+
+#player1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 200px;
+    color: aqua;
+}
+
+canvas {
+    position: absolute;
     margin: 0;
     padding: 0;
     height: 100%;
