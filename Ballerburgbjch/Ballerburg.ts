@@ -154,8 +154,8 @@ namespace Ballerburg {
         ctx.fill();
     }
 
-    const slider1 = document.getElementById('player1angle') as HTMLInputElement;
-    const slider2 = document.getElementById('player2angle') as HTMLInputElement;
+    const slider1:HTMLInputElement = document.getElementById('player1angle') as HTMLInputElement;
+    const slider2:HTMLInputElement = document.getElementById('player2angle') as HTMLInputElement;
 
     function getSlider1Value(): number {
         return parseInt(slider1.value, 10);
