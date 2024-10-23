@@ -86,7 +86,7 @@ namespace Ballerburg {
 
     }
 
-    function drawBackground() {
+    function drawBackground():void {
         //draw background
         ctx.fillStyle = "rgb(77, 57, 20)";
         const bg: Path2D = new Path2D();
@@ -94,7 +94,7 @@ namespace Ballerburg {
         ctx.fill(bg);
     }
 
-    function generateCanons() {
+    function generateCanons():void {
         canon1 = {
             pos: {
                 x: 140,
@@ -114,7 +114,7 @@ namespace Ballerburg {
         };
     }
 
-    function drawCanons() {
+    function drawCanons():void {
         const player1: Path2D = new Path2D();
         const player2: Path2D = new Path2D();
 
@@ -137,7 +137,7 @@ namespace Ballerburg {
 
     }
 
-    function generateMountain() {
+    function generateMountain():void {
         mountain = {
             p1: {
                 x: 500,
@@ -157,7 +157,7 @@ namespace Ballerburg {
         }
     }
 
-    function drawMountain() {
+    function drawMountain():void {
 
         ctx.fillStyle = "rgb(0, 0, 0)";
 
@@ -217,13 +217,13 @@ namespace Ballerburg {
         ball.pos = canon2.pos
     });
 
-    function simulateBall(/*pos: Vector2D,*/ angle: number, power: number/*, frametime: number*/) {
+    function simulateBall(/*pos: Vector2D,*/ _angle: number, _power: number/*, frametime: number*/):void {
 
-        ball.power = power;
+        ball.power = _power;
 
         //calculate direction and falloff
-        ball.dir.x = Math.cos(angle * Math.PI / 180);
-        ball.dir.y = Math.sin(angle * Math.PI / 180);
+        ball.dir.x = Math.cos(_angle * Math.PI / 180);
+        ball.dir.y = Math.sin(_angle * Math.PI / 180);
 
         ball.pos.x += ball.dir.x * ball.power;
         ball.pos.y -= (ball.dir.y * ball.power - (gravity * simulationFrame)); // account for gravity
@@ -235,7 +235,7 @@ namespace Ballerburg {
         }
     }
 
-    function drawBall() {
+    function drawBall():void {
         ctx.fillStyle = "rgb(0, 199, 60)";
 
         ctx.beginPath();
@@ -247,7 +247,7 @@ namespace Ballerburg {
     }
 
 
-    function animate(elapsed: number) {
+    function animate(_elapsed: number):void {
         ctx.clearRect(0, 0, 1920, 1080);
 
         if (simulate == true) {
@@ -267,6 +267,6 @@ namespace Ballerburg {
         drawCanons();
         drawMountain();
         requestAnimationFrame(animate);
-        oldelapsed = elapsed;
+        oldelapsed = _elapsed;
     }
 }
