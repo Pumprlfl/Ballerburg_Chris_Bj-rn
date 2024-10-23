@@ -1,6 +1,6 @@
 namespace Ballerburg {
 
-    interface Vector2D{
+    interface Vector2D {
         x: number,
         y: number
     }
@@ -44,9 +44,37 @@ namespace Ballerburg {
     const worldPosX: number = 0;
     const worldPosY: number = 0;
 
+    const slider1angle: HTMLInputElement = document.getElementById('player1angle') as HTMLInputElement;
+    const slider2angle: HTMLInputElement = document.getElementById('player2angle') as HTMLInputElement;
+    const slider1power: HTMLInputElement = document.getElementById('player1angle') as HTMLInputElement;
+    const slider2power: HTMLInputElement = document.getElementById('player2angle') as HTMLInputElement;
+
+    const button1fire: HTMLInputElement = document.getElementById('player1fire') as HTMLInputElement;
+    const button2fire: HTMLInputElement = document.getElementById('player2fire') as HTMLInputElement;
+
+    const gravity: number = 10;
+
+    let simulationFrame: number = 0;
+    let simulate: boolean = false;
+    let oldelapsed: number;
+
     let canon1: Canon;
     let canon2: Canon;
     let mountain: Mountain;
+    let ball: Ball;
+
+    ball = {
+        size: 25,
+        pos: {
+            x: 0,
+            y: 0
+        },
+        dir: {
+            x: 0,
+            y: 0
+        },
+        power: 0
+    }
 
     window.addEventListener("load", start);
 
@@ -142,9 +170,6 @@ namespace Ballerburg {
     }
 
     //Angle Input
-    const slider1angle:HTMLInputElement = document.getElementById('player1angle') as HTMLInputElement;
-    const slider2angle:HTMLInputElement = document.getElementById('player2angle') as HTMLInputElement;
-
     function getSlider1Angle(): number {
         return parseInt(slider1angle.value, 10);
     }
@@ -162,9 +187,6 @@ namespace Ballerburg {
     });
 
     //Power Input
-    const slider1power:HTMLInputElement = document.getElementById('player1angle') as HTMLInputElement;
-    const slider2power:HTMLInputElement = document.getElementById('player2angle') as HTMLInputElement;
-
     function getSlider1Power(): number {
         return parseInt(slider1angle.value, 10);
     }
@@ -173,25 +195,76 @@ namespace Ballerburg {
         return parseInt(slider2angle.value, 10);
     }
 
-    slider1power.addEventListener('input', () => {
+    slider1power.addEventListener('input', (_event) => {
         canon1.power = getSlider1Power();
     });
 
-    slider2power.addEventListener('input', () => {
+    slider2power.addEventListener('input', (_event) => {
         canon2.power = getSlider2Power();
     });
 
-    function simulateBall(pos: Vector2D, direction: Vector2D, power: number){
-        
+    button1fire.addEventListener('click', (_event) => {
+        simulate = true;
+        console.log("fire pressed");
+    });
+
+    button2fire.addEventListener('click', (_event) => {
+        simulate = true;
+    });
+
+    function simulateBall(/*pos: Vector2D,*/ angle: number, power: number/*, frametime: number*/) {
+
+        if (simulationFrame == 0) {
+            ball.pos = canon1.pos;
+        }
+
+        ball.power = power;
+
+        //calculate direction and falloff
+        ball.dir.x = Math.cos(angle * Math.PI / 180);
+        ball.dir.y = Math.sin(angle * Math.PI / 180);
+
+        ball.pos.x += ball.dir.x * ball.power;
+        ball.pos.y -= (ball.dir.y * ball.power - (gravity * simulationFrame)); // account for gravity
+
+
+        if (ball.pos.x >= 1920 || ball.pos.x <= 0 || ball.pos.y >= 1080 || ball.pos.y <= 0) {
+            simulate = false;
+            simulationFrame = 0;
+        }
+    }
+
+    function drawBall() {
+        ctx.fillStyle = "rgb(0, 199, 60)";
+
+        ctx.beginPath();
+
+        ctx.fillRect(ball.pos.x, ball.pos.y, 1000, 1000);
+        //ctx.ellipse(ball.pos.x, ball.pos.y, ball.size, ball.size, 0, 0, 2 * Math.PI, false);
+
+        ctx.fill();
     }
 
 
-    function animate() {
-        ctx.clearRect(0,0,1920,1080);
+    function animate(elapsed: number) {
+        ctx.clearRect(0, 0, 1920, 1080);
+
+        if (simulate == true) {
+
+            console.log(ball.pos);
+            //console.log(ball.dir);
+
+            simulateBall(/*canon1.pos,*/ canon1.angle, canon1.power/*, elapsed - oldelapsed*/);
+            simulationFrame++;
+            drawBall();
+        }
+        console.log(simulationFrame);
+
 
         drawBackground();
         drawCanons();
         drawMountain();
         requestAnimationFrame(animate);
+        oldelapsed = elapsed;
     }
 }

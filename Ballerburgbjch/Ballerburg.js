@@ -9,9 +9,32 @@ var Ballerburg;
     const worldHeigth = 1080;
     const worldPosX = 0;
     const worldPosY = 0;
+    const slider1angle = document.getElementById('player1angle');
+    const slider2angle = document.getElementById('player2angle');
+    const slider1power = document.getElementById('player1angle');
+    const slider2power = document.getElementById('player2angle');
+    const button1fire = document.getElementById('player1fire');
+    const button2fire = document.getElementById('player2fire');
+    const gravity = 10;
+    let simulationFrame = 0;
+    let simulate = false;
+    let oldelapsed;
     let canon1;
     let canon2;
     let mountain;
+    let ball;
+    ball = {
+        size: 25,
+        pos: {
+            x: 0,
+            y: 0
+        },
+        dir: {
+            x: 0,
+            y: 0
+        },
+        power: 0
+    };
     window.addEventListener("load", start);
     function start(_event) {
         generateMountain();
@@ -83,26 +106,76 @@ var Ballerburg;
         ctx.closePath();
         ctx.fill();
     }
-    const slider1 = document.getElementById('player1angle');
-    const slider2 = document.getElementById('player2angle');
-    function getSlider1Value() {
-        return parseInt(slider1.value, 10);
+    //Angle Input
+    function getSlider1Angle() {
+        return parseInt(slider1angle.value, 10);
     }
-    function getSlider2Value() {
-        return parseInt(slider2.value, 10);
+    function getSlider2Angle() {
+        return parseInt(slider2angle.value, 10);
     }
-    slider1.addEventListener('input', () => {
-        canon1.angle = getSlider1Value();
+    slider1angle.addEventListener('input', () => {
+        canon1.angle = getSlider1Angle();
     });
-    slider2.addEventListener('input', () => {
-        canon2.angle = getSlider2Value();
+    slider2angle.addEventListener('input', () => {
+        canon2.angle = getSlider2Angle();
     });
-    function animate() {
+    //Power Input
+    function getSlider1Power() {
+        return parseInt(slider1angle.value, 10);
+    }
+    function getSlider2Power() {
+        return parseInt(slider2angle.value, 10);
+    }
+    slider1power.addEventListener('input', (_event) => {
+        canon1.power = getSlider1Power();
+    });
+    slider2power.addEventListener('input', (_event) => {
+        canon2.power = getSlider2Power();
+    });
+    button1fire.addEventListener('click', (_event) => {
+        simulate = true;
+        console.log("fire pressed");
+    });
+    button2fire.addEventListener('click', (_event) => {
+        simulate = true;
+    });
+    function simulateBall(/*pos: Vector2D,*/ angle, power /*, frametime: number*/) {
+        if (simulationFrame == 0) {
+            ball.pos = canon1.pos;
+        }
+        ball.power = power;
+        //calculate direction and falloff
+        ball.dir.x = Math.cos(angle * Math.PI / 180);
+        ball.dir.y = Math.sin(angle * Math.PI / 180);
+        ball.pos.x += ball.dir.x * ball.power;
+        ball.pos.y -= (ball.dir.y * ball.power - (gravity * simulationFrame)); // account for gravity
+        if (ball.pos.x >= 1920 || ball.pos.x <= 0 || ball.pos.y >= 1080 || ball.pos.y <= 0) {
+            simulate = false;
+            simulationFrame = 0;
+        }
+    }
+    function drawBall() {
+        ctx.fillStyle = "rgb(0, 199, 60)";
+        ctx.beginPath();
+        ctx.fillRect(ball.pos.x, ball.pos.y, 1000, 1000);
+        //ctx.ellipse(ball.pos.x, ball.pos.y, ball.size, ball.size, 0, 0, 2 * Math.PI, false);
+        ctx.fill();
+    }
+    function animate(elapsed) {
         ctx.clearRect(0, 0, 1920, 1080);
+        if (simulate == true) {
+            console.log(ball.pos);
+            //console.log(ball.dir);
+            simulateBall(/*canon1.pos,*/ canon1.angle, canon1.power /*, elapsed - oldelapsed*/);
+            simulationFrame++;
+            drawBall();
+        }
+        console.log(simulationFrame);
         drawBackground();
         drawCanons();
         drawMountain();
         requestAnimationFrame(animate);
+        oldelapsed = elapsed;
     }
 })(Ballerburg || (Ballerburg = {}));
 //# sourceMappingURL=Ballerburg.js.map
