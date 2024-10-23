@@ -1,11 +1,13 @@
 namespace Ballerburg {
 
+    interface Vector2D{
+        x: number,
+        y: number
+    }
+
     interface Canon {
 
-        pos: {
-            x: number,
-            y: number
-        },
+        pos: Vector2D,
 
         angle: number,
 
@@ -16,35 +18,20 @@ namespace Ballerburg {
 
         size: number,
 
-        pos: {
-            x: number,
-            y: number
-        },
+        pos: Vector2D,
 
-        dir: {
-            x: number,
-            y: number
-        },
+        dir: Vector2D,
 
         power: number
     }
 
     interface Mountain {
 
-        p1: {
-            x: number,
-            y: number
-        }
+        p1: Vector2D,
 
-        p2: {
-            x: number,
-            y: number
-        }
+        p2: Vector2D,
 
-        p3: {
-            x: number,
-            y: number
-        }
+        p3: Vector2D
     }
 
     const canvas: HTMLCanvasElement = document.getElementsByTagName("canvas")[0];
@@ -194,6 +181,9 @@ namespace Ballerburg {
         canon2.power = getSlider2Power();
     });
 
+    function simulateBall(pos: Vector2D, direction: Vector2D, power: number){
+        
+    }
 
 
     function animate() {
