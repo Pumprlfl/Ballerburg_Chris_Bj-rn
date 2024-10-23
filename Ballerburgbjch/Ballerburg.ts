@@ -46,8 +46,8 @@ namespace Ballerburg {
 
     const slider1angle: HTMLInputElement = document.getElementById('player1angle') as HTMLInputElement;
     const slider2angle: HTMLInputElement = document.getElementById('player2angle') as HTMLInputElement;
-    const slider1power: HTMLInputElement = document.getElementById('player1angle') as HTMLInputElement;
-    const slider2power: HTMLInputElement = document.getElementById('player2angle') as HTMLInputElement;
+    const slider1power: HTMLInputElement = document.getElementById('player1power') as HTMLInputElement;
+    const slider2power: HTMLInputElement = document.getElementById('player2power') as HTMLInputElement;
 
     const button1fire: HTMLInputElement = document.getElementById('player1fire') as HTMLInputElement;
     const button2fire: HTMLInputElement = document.getElementById('player2fire') as HTMLInputElement;
@@ -62,6 +62,7 @@ namespace Ballerburg {
     let canon2: Canon;
     let mountain: Mountain;
     let ball: Ball;
+    let player: boolean;
 
     ball = {
         size: 25,
@@ -100,7 +101,7 @@ namespace Ballerburg {
                 y: 540 + Math.random() * 540
             },
             angle: 0,
-            power: 0.5
+            power: 100
         };
 
         canon2 = {
@@ -109,7 +110,7 @@ namespace Ballerburg {
                 y: 540 + Math.random() * 540
             },
             angle: 0,
-            power: 0.5
+            power: 100
         };
     }
 
@@ -188,11 +189,11 @@ namespace Ballerburg {
 
     //Power Input
     function getSlider1Power(): number {
-        return parseInt(slider1angle.value, 10);
+        return parseInt(slider1power.value);
     }
 
     function getSlider2Power(): number {
-        return parseInt(slider2angle.value, 10);
+        return parseInt(slider2power.value);
     }
 
     slider1power.addEventListener('input', (_event) => {
@@ -205,18 +206,18 @@ namespace Ballerburg {
 
     button1fire.addEventListener('click', (_event) => {
         simulate = true;
+        player = false;
+        ball.pos = canon1.pos;
         console.log("fire pressed");
     });
 
     button2fire.addEventListener('click', (_event) => {
         simulate = true;
+        player = true;
+        ball.pos = canon2.pos
     });
 
     function simulateBall(/*pos: Vector2D,*/ angle: number, power: number/*, frametime: number*/) {
-
-        if (simulationFrame == 0) {
-            ball.pos = canon1.pos;
-        }
 
         ball.power = power;
 
@@ -252,6 +253,7 @@ namespace Ballerburg {
         if (simulate == true) {
 
             console.log(ball.pos);
+            console.log(ball.power);
             //console.log(ball.dir);
 
             simulateBall(/*canon1.pos,*/ canon1.angle, canon1.power/*, elapsed - oldelapsed*/);

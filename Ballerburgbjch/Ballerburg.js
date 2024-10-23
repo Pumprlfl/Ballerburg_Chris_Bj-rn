@@ -11,8 +11,8 @@ var Ballerburg;
     const worldPosY = 0;
     const slider1angle = document.getElementById('player1angle');
     const slider2angle = document.getElementById('player2angle');
-    const slider1power = document.getElementById('player1angle');
-    const slider2power = document.getElementById('player2angle');
+    const slider1power = document.getElementById('player1power');
+    const slider2power = document.getElementById('player2power');
     const button1fire = document.getElementById('player1fire');
     const button2fire = document.getElementById('player2fire');
     const gravity = 10;
@@ -23,6 +23,7 @@ var Ballerburg;
     let canon2;
     let mountain;
     let ball;
+    let player;
     ball = {
         size: 25,
         pos: {
@@ -55,7 +56,7 @@ var Ballerburg;
                 y: 540 + Math.random() * 540
             },
             angle: 0,
-            power: 0.5
+            power: 100
         };
         canon2 = {
             pos: {
@@ -63,7 +64,7 @@ var Ballerburg;
                 y: 540 + Math.random() * 540
             },
             angle: 0,
-            power: 0.5
+            power: 100
         };
     }
     function drawCanons() {
@@ -121,10 +122,10 @@ var Ballerburg;
     });
     //Power Input
     function getSlider1Power() {
-        return parseInt(slider1angle.value, 10);
+        return parseInt(slider1power.value);
     }
     function getSlider2Power() {
-        return parseInt(slider2angle.value, 10);
+        return parseInt(slider2power.value);
     }
     slider1power.addEventListener('input', (_event) => {
         canon1.power = getSlider1Power();
@@ -134,15 +135,16 @@ var Ballerburg;
     });
     button1fire.addEventListener('click', (_event) => {
         simulate = true;
+        player = false;
+        ball.pos = canon1.pos;
         console.log("fire pressed");
     });
     button2fire.addEventListener('click', (_event) => {
         simulate = true;
+        player = true;
+        ball.pos = canon2.pos;
     });
     function simulateBall(/*pos: Vector2D,*/ angle, power /*, frametime: number*/) {
-        if (simulationFrame == 0) {
-            ball.pos = canon1.pos;
-        }
         ball.power = power;
         //calculate direction and falloff
         ball.dir.x = Math.cos(angle * Math.PI / 180);
@@ -165,6 +167,7 @@ var Ballerburg;
         ctx.clearRect(0, 0, 1920, 1080);
         if (simulate == true) {
             console.log(ball.pos);
+            console.log(ball.power);
             //console.log(ball.dir);
             simulateBall(/*canon1.pos,*/ canon1.angle, canon1.power /*, elapsed - oldelapsed*/);
             simulationFrame++;
