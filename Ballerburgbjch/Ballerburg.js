@@ -170,7 +170,7 @@ var Ballerburg;
             simulationFrame++;
             drawBall();
         }
-        console.log(simulationFrame);
+        //console.log(simulationFrame);
         drawBackground();
         drawCanons();
         drawMountain();

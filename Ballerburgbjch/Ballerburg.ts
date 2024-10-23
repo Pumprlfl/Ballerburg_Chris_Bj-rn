@@ -258,7 +258,7 @@ namespace Ballerburg {
             simulationFrame++;
             drawBall();
         }
-        console.log(simulationFrame);
+        //console.log(simulationFrame);
 
 
         drawBackground();
