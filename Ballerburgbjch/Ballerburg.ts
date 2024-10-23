@@ -154,24 +154,46 @@ namespace Ballerburg {
         ctx.fill();
     }
 
-    const slider1:HTMLInputElement = document.getElementById('player1angle') as HTMLInputElement;
-    const slider2:HTMLInputElement = document.getElementById('player2angle') as HTMLInputElement;
+    //Angle Input
+    const slider1angle:HTMLInputElement = document.getElementById('player1angle') as HTMLInputElement;
+    const slider2angle:HTMLInputElement = document.getElementById('player2angle') as HTMLInputElement;
 
-    function getSlider1Value(): number {
-        return parseInt(slider1.value, 10);
+    function getSlider1Angle(): number {
+        return parseInt(slider1angle.value, 10);
     }
 
-    function getSlider2Value(): number {
-        return parseInt(slider2.value, 10);
+    function getSlider2Angle(): number {
+        return parseInt(slider2angle.value, 10);
     }
 
-    slider1.addEventListener('input', () => {
-        canon1.angle = getSlider1Value();
+    slider1angle.addEventListener('input', () => {
+        canon1.angle = getSlider1Angle();
     });
 
-    slider2.addEventListener('input', () => {
-        canon2.angle = getSlider2Value();
+    slider2angle.addEventListener('input', () => {
+        canon2.angle = getSlider2Angle();
     });
+
+    //Power Input
+    const slider1power:HTMLInputElement = document.getElementById('player1angle') as HTMLInputElement;
+    const slider2power:HTMLInputElement = document.getElementById('player2angle') as HTMLInputElement;
+
+    function getSlider1Power(): number {
+        return parseInt(slider1angle.value, 10);
+    }
+
+    function getSlider2Power(): number {
+        return parseInt(slider2angle.value, 10);
+    }
+
+    slider1power.addEventListener('input', () => {
+        canon1.power = getSlider1Power();
+    });
+
+    slider2power.addEventListener('input', () => {
+        canon2.power = getSlider2Power();
+    });
+
 
 
     function animate() {
